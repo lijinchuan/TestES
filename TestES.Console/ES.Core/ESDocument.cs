@@ -9,8 +9,55 @@ namespace ES.Core
 {
     public class ESDocument<T>
     {
-        [JsonIgnore]
-        public DocumentID DocumentID
+        public ESDocument()
+        {
+
+        }
+
+        public ESDocument(string index, string type, T document)
+        {
+            IndexName = index;
+            DocumentType = type;
+            Document = document;
+        }
+
+        [JsonProperty("_index")]
+        public string IndexName
+        {
+            get;
+            set;
+        }
+
+        private string _documentType = null;
+        [JsonProperty("_type")]
+        public string DocumentType
+        {
+            get
+            {
+                if (_documentType != null)
+                    return _documentType;
+
+                _documentType = typeof(T).Name.ToLower();
+
+                return _documentType;
+            }
+            set
+            {
+                _documentType = value;
+            }
+        }
+
+        [JsonProperty("_id")]
+        public string DocumentID
+        {
+            get;
+            set;
+        }
+
+        
+
+        [JsonProperty("_version")]
+        public int Version
         {
             get;
             set;
@@ -25,21 +72,6 @@ namespace ES.Core
         public bool IsEmptyDocument()
         {
             return object.Equals(Document, default(T));
-        }
-
-        private string _documentType = null;
-        [JsonIgnore]
-        public string DocumentType
-        {
-            get
-            {
-                if (_documentType != null)
-                    return _documentType;
-
-                _documentType = typeof(T).Name.ToLower();
-
-                return _documentType;
-            }
         }
 
         public override string ToString()

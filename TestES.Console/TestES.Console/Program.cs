@@ -23,11 +23,50 @@ namespace TestES.Console
                 IsRead=true,
             };
 
-            var documentID = new ES.Core.DocumentID();
-            documentID.LongId = 1;
-            doc.DocumentID = documentID;
+            ES.Core.ESCore.Index<NewsEntity>(doc);
+        }
 
-            ES.Core.ESCore.Index<NewsEntity>("cjzf.news", doc);
+        public static void GetNews()
+        {
+            ES.Core.ESCore.Get3<NewsEntity>("cjzf.news", "newsentity", "1", p => p.NewsDate, p => p.Title, p => p.Content);
+        }
+
+        public static void Exsits()
+        {
+            var boo = ES.Core.ESCore.Exists("cjzf.news", "newsentity", "2");
+        }
+
+
+        public static void MGet()
+        {
+            var docs = ES.Core.ESCore.MGet<NewsEntity>("cjzf.news", "newsentity", new[] { "1", "AVUop3rauxn7koQ8tpYk", "AVUoqgM6uxn7koQ8tpYm" });
+        }
+
+        static void TestMOp()
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 100000; i++)
+            {
+                ES.Core.BulkOpBuilder bb = new ES.Core.BulkOpBuilder();
+                bb.Update<NewsEntity>(new ES.Core.ESDocument<NewsEntity>
+                {
+                    DocumentID = "1",
+                    Document = new NewsEntity
+                    {
+                        Content = "test",
+                        Title = "title",
+                        NewsDate = DateTime.Now,
+                        IsList = true,
+                    },
+                    IndexName = "xxx",
+                }, p => p.Title, p => p.Content, p => p.NewsDate, p => p.IsList);
+
+                string b = bb.ToString();
+            }
+            sw.Stop();
+
+            var el = sw.ElapsedMilliseconds;
         }
 
         static void Main(string[] args)
@@ -36,7 +75,15 @@ namespace TestES.Console
 
             //var boo1 = ES.Core.ESCore.DeleteIndex("test2");
 
-            AddNews();
+            //AddNews();
+
+            //GetNews();
+
+            //Exsits();
+
+            //MGet();
+
+            TestMOp();
         }
     }
 }
