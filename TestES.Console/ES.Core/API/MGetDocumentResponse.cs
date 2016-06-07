@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ES.Core
 {
-    public class MGetDocumentResponse<T>
+    internal class MGetDocumentResponse<T>
     {
         [JsonProperty("docs")]
         public GetDocumentResponse<T>[] Docs

@@ -196,5 +196,23 @@ namespace ES.Core
                     DocumentID=p.ID
                 }).ToArray();
         }
+
+        /// <summary>
+        /// 批量操作
+        /// </summary>
+        /// <param name="bulkopbuilder"></param>
+        public static void BulkOperator(BulkOpBuilder bulkopbuilder)
+        {
+            if (bulkopbuilder == null)
+                return;
+
+            var url = ESBaseUrl + "_bulk";
+
+            var httpresponse = esreqest.DoRequest(url, bulkopbuilder.ToString(), WebRequestMethodEnum.POST, false);
+            if (!httpresponse.Successed)
+                return;
+
+
+        }
     }
 }

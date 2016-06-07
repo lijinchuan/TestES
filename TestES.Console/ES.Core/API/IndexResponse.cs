@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ES.Core
 {
-    public class IndexResponse
+    internal class IndexResponse
     {
         //{"_index":"cjzf.news","_type":"newsentity","_id":"AVUovjGkuxn7koQ8tpY0","_version":1,"_shards":{"total":2,"successful":1,"failed":0},"created":true}
         //{"_index":"cjzf.news","_type":"newsentity","_id":"1","_version":2,"_shards":{"total":2,"successful":1,"failed":0},"created":false}

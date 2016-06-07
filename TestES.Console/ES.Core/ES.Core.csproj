@@ -50,13 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcknowledgedResponse.cs" />
+    <Compile Include="API\AcknowledgedResponse.cs" />
     <Compile Include="BulkOpBuilder.cs" />
+    <Compile Include="API\BulkOpResponse.cs" />
     <Compile Include="ESCore.cs" />
     <Compile Include="ESDocument.cs" />
-    <Compile Include="GetDocumentResponse.cs" />
-    <Compile Include="IndexResponse.cs" />
-    <Compile Include="MGetDocumentResponse.cs" />
+    <Compile Include="API\GetDocumentResponse.cs" />
+    <Compile Include="API\IndexResponse.cs" />
+    <Compile Include="API\MGetDocumentResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

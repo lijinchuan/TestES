@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ES.Core
 {
-    public class AcknowledgedResponse
+    internal class AcknowledgedResponse
     {
         [JsonProperty("acknowledged")]
         public bool Acknowledged
