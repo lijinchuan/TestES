@@ -69,6 +69,12 @@ namespace TestES.Console
             var el = sw.ElapsedMilliseconds;
         }
 
+        static void Search()
+        {
+            var sb = new ES.Core.SearchBuilder<NewsEntity>();
+            sb.where(p => p.Class == "x" && (p.Conkeywords != "y" || p.Clicktime >11));
+        }
+
         static void Main(string[] args)
         {
             //var boo = ES.Core.ESCore.CreateIndex("test2");
@@ -83,7 +89,9 @@ namespace TestES.Console
 
             //MGet();
 
-            TestMOp();
+            //TestMOp();
+
+            Search();
         }
     }
 }
