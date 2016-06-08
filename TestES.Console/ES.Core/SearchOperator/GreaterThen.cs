@@ -7,7 +7,7 @@ namespace ES.Core.SearchOperator
 {
     public class GreaterThen:FilterCodition
     {
-        public GreaterThen(object value)
+        public GreaterThen(object value = null)
             : base("gt")
         {
             Value = value;

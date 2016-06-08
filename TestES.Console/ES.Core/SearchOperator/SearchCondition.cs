@@ -16,9 +16,13 @@ namespace ES.Core.SearchOperator
             set;
         }
 
-        public SearchCondition(string condition)
+        public SearchCondition(string condition = "query", object value = null)
         {
             this.Codition = condition;
+            if (value != null)
+            {
+                Value = value;
+            }
         }
 
         public object Value
@@ -65,6 +69,38 @@ namespace ES.Core.SearchOperator
             
             //writer.WriteEndObject();
             return sb.ToString();
+        }
+
+        public virtual void BuildQuery(JsonTextWriter jsonwriter)
+        {
+            jsonwriter.WritePropertyName(this.Codition);
+
+            
+            if (_filterCollection.Count > 0)
+            {
+                if (_filterCollection.Count > 1)
+                {
+                    jsonwriter.WriteStartArray();
+                }
+
+                jsonwriter.WriteStartObject();
+
+                foreach (var t in _filterCollection)
+                {
+                    t.BuildQuery(jsonwriter);
+                }
+
+                jsonwriter.WriteEndObject();
+
+                if (_filterCollection.Count > 1)
+                {
+                    jsonwriter.WriteEndArray();
+                }
+            }
+            else
+            {
+                jsonwriter.WriteValue(this.Value);
+            }
         }
     }
 }

@@ -61,8 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchBuilder.cs" />
     <Compile Include="SearchOperator\BoolFilter.cs" />
+    <Compile Include="SearchOperator\ExistsCondition.cs" />
     <Compile Include="SearchOperator\FilterCodition.cs" />
     <Compile Include="SearchOperator\FilteredCondition.cs" />
+    <Compile Include="SearchOperator\GreaterEquelThen.cs" />
     <Compile Include="SearchOperator\GreaterThen.cs" />
     <Compile Include="SearchOperator\MatchCondition.cs" />
     <Compile Include="SearchOperator\MustCondition.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="SearchOperator\Range.cs" />
     <Compile Include="SearchOperator\SearchCondition.cs" />
     <Compile Include="SearchOperator\ShouldCondition.cs" />
+    <Compile Include="SearchOperator\SmallEquelThen.cs" />
+    <Compile Include="SearchOperator\SmallThen.cs" />
     <Compile Include="SearchOperator\TermCondition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

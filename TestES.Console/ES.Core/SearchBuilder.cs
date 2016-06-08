@@ -1,4 +1,5 @@
 ﻿using ES.Core.SearchOperator;
+using LJC.FrameWork.Comm;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ namespace ES.Core
 {
     public class SearchBuilder<T>
     {
-        private StringBuilder sb = new StringBuilder();
+        private SearchCondition _query = null;
+        private SearchCondition _lastquery = null;
+
         private void AnsyExpression(Expression expression,ref SearchCondition query)
         {
             if(query==null)
@@ -39,7 +42,22 @@ namespace ES.Core
                     {
                         case ExpressionType.GreaterThan:
                             {
-                                condtion = new Range();
+                                condtion = new GreaterThen();
+                            }
+                            break;
+                        case ExpressionType.GreaterThanOrEqual:
+                            {
+                                condtion = new GreaterEquelThen();
+                            }
+                            break;
+                        case ExpressionType.LessThan:
+                            {
+                                condtion = new SmallThen();
+                            }
+                            break;
+                        case ExpressionType.LessThanOrEqual:
+                            {
+                                condtion = new SmallEquelThen();
                             }
                             break;
                         case ExpressionType.Equal:
@@ -78,32 +96,24 @@ namespace ES.Core
                     if(binexp.Right is ConstantExpression)
                     {
                         var cst = binexp.Right as ConstantExpression;
-                        if (condtion is Range)
-                        {
-                            (condtion as Range).FilterCollection.Add((FilterCodition)new GreaterThen(cst.Value));
-                        }
-                        else if (condtion is TermCondition)
-                        {
-                            var sc = new SearchCondition(jsonname);
-                            sc.Value = cst.Value;
-                            (condtion as TermCondition).FilterCollection.Add(sc);
-                        }
-                        else if (condtion is MustNotCodition)
+                        var conditionvalue = new SearchCondition(jsonname, cst.Value);
+
+                        if (condtion is MustNotCodition)
                         {
                             var sc = new TermCondition();
-                            var tem = new SearchCondition(jsonname);
-                            tem.Value = cst.Value;
-                            sc.FilterCollection.Add(tem);
+                            sc.FilterCollection.Add(conditionvalue);
 
-                            (condtion as MustNotCodition).FilterCollection.Add(sc);
+                            condtion.FilterCollection.Add(sc);
+                        }
+                        else
+                        {
+                            condtion.FilterCollection.Add(conditionvalue);
                         }
                     }
                     else
                     {
                         throw new NotSupportedException("表达式的右侧一定是常数");
                     }
-
-                    //jsonwriter.WriteRaw(condtion.ToString()+",");
 
                     query.FilterCollection.Add(condtion);
                     return;
@@ -140,18 +150,50 @@ namespace ES.Core
             }
         }
 
-        public SearchBuilder<T> where(Expression<Func<T,bool>> predicate)
+        public SearchBuilder<T> Filter(Expression<Func<T, bool>> predicate)
         {
-
-            JsonTextWriter writer=new JsonTextWriter(new StringWriter(sb));
-            SearchCondition query = null;
-            AnsyExpression(predicate.Body,ref query);
+            AnsyExpression(predicate.Body,ref _query);
 
             return this;
         }
 
+        public SearchBuilder<T> Exists(Expression<Func<T, object>> predicate)
+        {
+            
+            return this;
+        }
+
+        public SearchBuilder<T> Missing(Expression<Func<T,object>> predicate)
+        {
+            return this;
+        }
+
+        public SearchBuilder<T> Match(Expression<Func<T,object>> predicate)
+        {
+            if(_lastquery==null)
+            {
+                _lastquery = new SearchCondition();
+            }
+
+            var jsoname = JsonHelper.GetJsonTag(predicate);
+
+
+            return this;
+        }
+
+        public void Clear()
+        {
+            _query = null;
+            _lastquery = null;
+        }
+
         public override string ToString()
         {
+            StringBuilder sb = new StringBuilder("{");
+            JsonTextWriter writer = new JsonTextWriter(new StringWriter(sb));
+            _query.BuildQuery(writer);
+
+            sb.Append("}");
             return sb.ToString();
         }
     }

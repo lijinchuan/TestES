@@ -72,7 +72,9 @@ namespace TestES.Console
         static void Search()
         {
             var sb = new ES.Core.SearchBuilder<NewsEntity>();
-            sb.where(p => p.Class == "x" && (p.Conkeywords != "y" || p.Clicktime >11));
+            //var str = sb.Filter(p => p.Class == "x" && p.Clicktime > 11).ToString();
+
+            sb.Match(p => p.Clicktime==1);
         }
 
         static void Main(string[] args)
