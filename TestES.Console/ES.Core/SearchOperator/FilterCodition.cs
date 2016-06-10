@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class FilterCodition:SearchCondition
+    public class FilterCodition:SearchConditionBase
     {
-        public FilterCodition(string condition) :
+        public FilterCodition(string condition = "filter") :
             base(condition)
         {
 

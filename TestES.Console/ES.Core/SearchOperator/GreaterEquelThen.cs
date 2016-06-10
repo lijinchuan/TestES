@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class GreaterEquelThen:SearchCondition
+    public class GreaterEquelThen:SearchConditionBase
     {
         public GreaterEquelThen(object value=null)
             : base("gte")

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class ExistsCondition:SearchCondition
+    public class ExistsCondition:SearchConditionBase
     {
         public ExistsCondition()
             : base("")

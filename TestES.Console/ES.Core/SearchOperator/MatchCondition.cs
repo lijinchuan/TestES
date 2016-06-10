@@ -7,12 +7,22 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class MatchCondition:SearchCondition
+    public class MatchCondition:SearchConditionBase
     {
         public MatchCondition()
             : base("match")
         {
 
+        }
+
+        public override void BuildQuery(JsonTextWriter jsonwriter)
+        {
+            if (this.FilterCollection.Count == 0)
+                this.Codition = "match_all";
+            else
+                this.Codition = "match";
+
+            base.BuildQuery(jsonwriter);
         }
     }
 }

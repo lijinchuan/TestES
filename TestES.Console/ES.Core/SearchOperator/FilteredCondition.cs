@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class FilteredCondition:SearchCondition
+    public class FilteredCondition:SearchConditionBase
     {
         public FilteredCondition()
             : base("filtered")

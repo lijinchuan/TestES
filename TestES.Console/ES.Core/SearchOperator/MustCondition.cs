@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class MustCondition:SearchCondition
+    public class MustCondition:SearchConditionBase
     {
         public MustCondition()
             : base("must")

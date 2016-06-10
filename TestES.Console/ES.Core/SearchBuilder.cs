@@ -12,14 +12,14 @@ namespace ES.Core
 {
     public class SearchBuilder<T>
     {
-        private SearchCondition _query = null;
-        private SearchCondition _lastquery = null;
+        private SearchConditionBase _query = null;
+        private SearchConditionBase _lastquery = null;
 
-        private void AnsyExpression(Expression expression,ref SearchCondition query)
+        private void AnsyExpression(Expression expression, SearchConditionBase query)
         {
             if(query==null)
             {
-                query=new SearchCondition("query");
+                query = new SearchConditionBase("query");
             }
 
             if(expression is MemberExpression)
@@ -31,7 +31,7 @@ namespace ES.Core
 
             if(expression is BinaryExpression)
             {
-                SearchCondition condtion = null;
+                SearchConditionBase condtion = null;
                 var binexp = expression as BinaryExpression;
 
                 if(!(binexp.Left is BinaryExpression))
@@ -96,7 +96,7 @@ namespace ES.Core
                     if(binexp.Right is ConstantExpression)
                     {
                         var cst = binexp.Right as ConstantExpression;
-                        var conditionvalue = new SearchCondition(jsonname, cst.Value);
+                        var conditionvalue = new SearchConditionBase(jsonname, cst.Value);
 
                         if (condtion is MustNotCodition)
                         {
@@ -119,9 +119,9 @@ namespace ES.Core
                     return;
                 }
 
-                SearchCondition group = new SearchCondition("bool");
+                SearchConditionBase group = new SearchConditionBase("bool");
                 query.FilterCollection.Add(group);
-                SearchCondition searchType = null;
+                SearchConditionBase searchType = null;
                 //包裹操作符
                 switch (binexp.NodeType)
                 {
@@ -145,14 +145,24 @@ namespace ES.Core
 
                 group.FilterCollection.Add(searchType);
 
-                AnsyExpression(binexp.Left,ref searchType);
-                AnsyExpression(binexp.Right, ref searchType);
+                AnsyExpression(binexp.Left,searchType);
+                AnsyExpression(binexp.Right, searchType);
             }
         }
 
         public SearchBuilder<T> Filter(Expression<Func<T, bool>> predicate)
         {
-            AnsyExpression(predicate.Body,ref _query);
+            if(_query==null)
+            {
+                _query = new SearchConditionBase();
+            }
+
+            FilteredCondition filteredCondition = new FilteredCondition();
+            FilterCodition filter = new FilterCodition();
+            filteredCondition.FilterCollection.Add(filter);
+            _query.FilterCollection.Add(filteredCondition);
+
+            AnsyExpression(predicate.Body, filter);
 
             return this;
         }
@@ -168,15 +178,35 @@ namespace ES.Core
             return this;
         }
 
-        public SearchBuilder<T> Match(Expression<Func<T,object>> predicate)
+        public SearchBuilder<T> Match()
+        {
+            if (_query == null)
+            {
+                _query = new SearchConditionBase();
+            }
+
+            MatchCondition mc = new MatchCondition();
+            _query.FilterCollection.Add(mc);
+
+            return this;
+        }
+
+        public SearchBuilder<T> Match<V>(Expression<Func<T,V>> predicate,V matchvalue)
         {
             if(_lastquery==null)
             {
-                _lastquery = new SearchCondition();
+                _lastquery = new SearchConditionBase();
             }
 
-            var jsoname = JsonHelper.GetJsonTag(predicate);
+            var jsoname = JsonHelper.GetJsonTag(predicate);;
+            if (_query == null)
+            {
+                _query = new SearchConditionBase();
+            }
 
+            MatchCondition mc = new MatchCondition();
+            mc.FilterCollection.Add(new SearchConditionBase(jsoname, matchvalue));
+            _query.FilterCollection.Add(mc);
 
             return this;
         }
@@ -189,11 +219,10 @@ namespace ES.Core
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder("{");
+            StringBuilder sb = new StringBuilder();
             JsonTextWriter writer = new JsonTextWriter(new StringWriter(sb));
             _query.BuildQuery(writer);
 
-            sb.Append("}");
             return sb.ToString();
         }
     }

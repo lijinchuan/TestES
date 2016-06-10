@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ES.Core.SearchOperator
 {
-    public class SearchCondition
+    public class SearchConditionBase
     {
         public string Codition
         {
@@ -16,7 +16,7 @@ namespace ES.Core.SearchOperator
             set;
         }
 
-        public SearchCondition(string condition = "query", object value = null)
+        public SearchConditionBase(string condition = "query", object value = null)
         {
             this.Codition = condition;
             if (value != null)
@@ -31,9 +31,9 @@ namespace ES.Core.SearchOperator
             set;
         }
 
-        private List<SearchCondition> _filterCollection = new List<SearchCondition>();
+        private List<SearchConditionBase> _filterCollection = new List<SearchConditionBase>();
         [JsonIgnore]
-        public List<SearchCondition> FilterCollection
+        public List<SearchConditionBase> FilterCollection
         {
             get
             {
@@ -73,34 +73,47 @@ namespace ES.Core.SearchOperator
 
         public virtual void BuildQuery(JsonTextWriter jsonwriter)
         {
+            //jsonwriter.WriteStartObject();
             jsonwriter.WritePropertyName(this.Codition);
 
             
             if (_filterCollection.Count > 0)
             {
-                if (_filterCollection.Count > 1)
+                var booarray = (_filterCollection.GroupBy(p => p.Codition).Where(p => p.Count() > 1).Count() > 0);
+                if (booarray)
                 {
                     jsonwriter.WriteStartArray();
                 }
+                else
+                {
+                    jsonwriter.WriteStartObject();
+                }
 
-                jsonwriter.WriteStartObject();
+                
 
                 foreach (var t in _filterCollection)
                 {
                     t.BuildQuery(jsonwriter);
                 }
 
-                jsonwriter.WriteEndObject();
-
-                if (_filterCollection.Count > 1)
+                if (booarray)
                 {
                     jsonwriter.WriteEndArray();
+                }
+                else
+                {
+                    jsonwriter.WriteEndObject();
                 }
             }
             else
             {
-                jsonwriter.WriteValue(this.Value);
+                if (this.Value != null)
+                    jsonwriter.WriteValue(this.Value);
+                else
+                    jsonwriter.WriteRawValue("{}");
             }
+
+            //jsonwriter.WriteEndObject();
         }
     }
 }
