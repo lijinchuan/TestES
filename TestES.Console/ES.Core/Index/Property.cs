@@ -29,7 +29,7 @@ namespace ES.Core.Index
         /// 可选值为yes或no，指定该字段的原始值是否被写入索引中，默认为no，即结果中不能返回该字段。
         /// </summary>
         [JsonProperty("store")]
-        internal bool _store;
+        internal bool? _store;
         public Property SetStore(bool store)
         {
             _store = store;
@@ -38,7 +38,7 @@ namespace ES.Core.Index
 
 
         [JsonProperty("ignore_malformed")]
-        internal bool _ignore_malformed;
+        internal bool? _ignore_malformed;
 
         public Property SetIgnore_malformed(bool ignore_malformed)
         {
@@ -62,7 +62,7 @@ namespace ES.Core.Index
         /// 默认为1，定义了文档中该字段的重要性，越高越重要
         /// </summary>
         [JsonProperty("boost")]
-        internal int _boost = 1;
+        internal int? _boost = 1;
 
         public Property SetBoost(int boost)
         {
@@ -87,7 +87,7 @@ namespace ES.Core.Index
         /// 指定该字段是否应该包括在_all字段里头，默认情况下都会包含。
         /// </summary>
         [JsonProperty("include_in_all")]
-        internal bool _include_in_all;
+        internal bool? _include_in_all;
 
         public Property SetInclude_in_all(bool include_in_all)
         {
@@ -97,7 +97,52 @@ namespace ES.Core.Index
 
         public void BuildString(JsonWriter writer)
         {
+            if (string.IsNullOrWhiteSpace("_propertyName"))
+                throw new Exception("_propertyName不能为空");
 
+            writer.WritePropertyName(this._propertyName);
+            writer.WriteStartObject();
+
+            if(_index!=null)
+            {
+                writer.WritePropertyName("index");
+                writer.WriteValue(_index);
+            }
+
+            if(this._boost!=null)
+            {
+                writer.WritePropertyName("boost");
+                writer.WriteValue(_boost);
+            }
+
+            if(this._store!=null)
+            {
+                writer.WritePropertyName("store");
+                writer.WriteValue(_store);
+            }
+
+            if(this._null_value!=null)
+            {
+                writer.WritePropertyName("null_value");
+                writer.WriteValue(_null_value);
+            }
+
+            if(this._ignore_malformed!=null)
+            {
+                writer.WritePropertyName("ignore_malformed");
+                writer.WriteValue(_ignore_malformed);
+            }
+
+            if(this._include_in_all!=null)
+            {
+                writer.WritePropertyName("include_in_all");
+                writer.WriteValue(_include_in_all);
+            }
+
+            writer.WritePropertyName("type");
+            writer.WriteValue(_propertyType.ToString().ToLower());
+
+            writer.WriteEndObject();
         }
     }
 }

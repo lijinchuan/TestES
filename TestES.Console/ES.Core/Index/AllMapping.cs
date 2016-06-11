@@ -16,7 +16,13 @@ namespace ES.Core.Index
 
         public void BuildString(JsonWriter writer)
         {
+            writer.WritePropertyName("_all_");
+            writer.WriteStartObject();
 
+            writer.WritePropertyName("enabled");
+            writer.WriteValue(_enabled);
+
+            writer.WriteEndObject();
         }
     }
 }

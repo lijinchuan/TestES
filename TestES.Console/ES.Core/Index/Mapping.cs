@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -41,6 +42,31 @@ namespace ES.Core.Index
         public void BuildString(JsonWriter writer)
         {
 
+            writer.WritePropertyName("mappings");
+
+            writer.WriteStartObject();
+
+            if(_default!=null)
+            {
+                _default.BuildString(writer);
+            }
+
+            if(_resource!=null)
+            {
+                _resource.BuildString(writer);
+            }
+
+            writer.WriteEndObject();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            JsonTextWriter writer = new JsonTextWriter(new StringWriter(sb));
+
+            BuildString(writer);
+
+            return sb.ToString();
         }
 
     }

@@ -19,6 +19,7 @@ namespace ES.Core.Index
             if(pp==null)
             {
                 pp = new Property().SetPropertyName(ppname);
+                PPlist.Add(pp);
             }
 
             property(pp);
@@ -27,7 +28,16 @@ namespace ES.Core.Index
 
         public void BuildString(JsonWriter writer)
         {
+            writer.WritePropertyName("properties");
 
+            writer.WriteStartObject();
+
+            foreach(var pp in PPlist)
+            {
+                pp.BuildString(writer);
+            }
+
+            writer.WriteEndObject();
         }
     }
 }

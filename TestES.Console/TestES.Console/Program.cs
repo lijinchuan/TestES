@@ -103,7 +103,7 @@ namespace TestES.Console
         static void Mapping()
         {
             Mappings mps = new Mappings("news");
-            mps.Deafult(d => d.All(a => a.Enabled(true))).Resource(r => r.Property(p => p.SetPropertyName("xx").SetIndex("idx")).Property(p2 => p2.SetIndex("p2")));
+            mps.Deafult(d => d.All(a => a.Enabled(true))).Resource(r => r.Property("p1", p1 => p1.SetIndex("idex1")).Property("p2",p2=>p2.SetStore(true)));
         }
 
         static void Main(string[] args)
@@ -114,7 +114,7 @@ namespace TestES.Console
 
             //var boo1 = ES.Core.ESCore.DeleteIndex("test2");
 
-            AddNews();
+            //AddNews();
 
             //GetNews();
 
@@ -125,6 +125,8 @@ namespace TestES.Console
             //TestMOp();
 
             //Search2();
+
+            Mapping();
         }
     }
 }

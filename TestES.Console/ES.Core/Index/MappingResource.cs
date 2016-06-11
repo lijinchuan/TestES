@@ -8,21 +8,48 @@ namespace ES.Core.Index
 {
     public class MappingResource
     {
-        private Property ppt;
+        private Properties ppt;
 
-        public MappingResource Property(Action<Property> property)
+        /// <summary>
+        /// 关闭“动态修改索引”
+        /// </summary>
+        public bool? _dynamic;
+
+        public MappingResource SetDynamic(bool value)
+        {
+            _dynamic = value;
+
+            return this;
+        }
+
+        public MappingResource Property(string ppname,Action<Property> property)
         {
             if (ppt == null)
-                ppt = new Property();
+                ppt = new Properties();
 
-            property(ppt);
+            ppt.Property(ppname, property);
 
             return this;
         }
 
         public void BuildString(JsonWriter writer)
         {
+            writer.WritePropertyName("resource");
 
+            writer.WriteStartObject();
+
+            if(_dynamic!=null)
+            {
+                writer.WritePropertyName("dynamic");
+                writer.WriteValue(_dynamic);
+            }
+
+            if(ppt!=null)
+            {
+                ppt.BuildString(writer);
+            }
+
+            writer.WriteEndObject();
         }
     }
 }
