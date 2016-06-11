@@ -48,9 +48,10 @@ namespace ES.Core.Index
 
         /// <summary>
         /// 可选值为analyzed(默认)和no，如果是字段是字符串类型的，则可以是not_analyzed.
+        /// Index表示该字段是否索引，如果index为no那个analyzer设为啥也没用。
         /// </summary>
         [JsonProperty("index")]
-        internal string _index = "no";
+        internal string _index = "analyzed";
 
         public Property SetIndex(string index)
         {
@@ -62,7 +63,7 @@ namespace ES.Core.Index
         /// 默认为1，定义了文档中该字段的重要性，越高越重要
         /// </summary>
         [JsonProperty("boost")]
-        internal int? _boost = 1;
+        internal int? _boost;
 
         public Property SetBoost(int boost)
         {
@@ -92,6 +93,42 @@ namespace ES.Core.Index
         public Property SetInclude_in_all(bool include_in_all)
         {
             _include_in_all = include_in_all;
+            return this;
+        }
+
+        /// <summary>
+        /// 字段项分词的设置对应Lucene里面的Analyzer
+        /// </summary>
+        [JsonProperty("analyzer")]
+        private string _analyzer;
+
+        public Property SetAnalyzer(string analyzer)
+        {
+            this._analyzer = analyzer;
+            return this;
+        }
+
+        /// <summary>
+        /// 指的是索引过程中采用的分词器
+        /// </summary>
+        [JsonProperty("index_analyzer")]
+        private string _index_analyzer;
+
+        public Property SetIndex_analyzer(string value)
+        {
+            _index_analyzer = value;
+            return this;
+        }
+
+        /// <summary>
+        /// 指的是检索过程中采用的分词器
+        /// </summary>
+        [JsonProperty("search_analyzer")]
+        private string _search_analyzer;
+
+        public Property SetSearch_analyzer(string value)
+        {
+            _search_analyzer = value;
             return this;
         }
 
@@ -141,6 +178,24 @@ namespace ES.Core.Index
 
             writer.WritePropertyName("type");
             writer.WriteValue(_propertyType.ToString().ToLower());
+
+            if(this._index_analyzer!=null)
+            {
+                writer.WritePropertyName("index_analyzer");
+                writer.WriteValue(_index_analyzer);
+            }
+
+            if(this._search_analyzer!=null)
+            {
+                writer.WritePropertyName("search_analyzer");
+                writer.WriteValue(_search_analyzer);
+            }
+
+            if(this._analyzer!=null)
+            {
+                writer.WritePropertyName("analyzer");
+                writer.WriteValue(_analyzer);
+            }
 
             writer.WriteEndObject();
         }

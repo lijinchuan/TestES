@@ -46,6 +46,8 @@ namespace ES.Core.Index
 
             writer.WriteStartObject();
 
+            writer.WritePropertyName(_typename);
+            writer.WriteStartObject();
             if(_default!=null)
             {
                 _default.BuildString(writer);
@@ -55,7 +57,7 @@ namespace ES.Core.Index
             {
                 _resource.BuildString(writer);
             }
-
+            writer.WriteEndObject();
             writer.WriteEndObject();
         }
 
