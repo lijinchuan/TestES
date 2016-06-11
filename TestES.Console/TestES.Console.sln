@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestES.Console", "TestES.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ES.Core", "ES.Core\ES.Core.csproj", "{291C064C-4486-4226-ADAB-FDC240D424ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestES.NewsWriter", "TestES.NewsWriter\TestES.NewsWriter.csproj", "{FD4D8F0B-39BF-493A-9F97-71ED69D6F70B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +23,15 @@ Global
 		{291C064C-4486-4226-ADAB-FDC240D424ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{291C064C-4486-4226-ADAB-FDC240D424ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{291C064C-4486-4226-ADAB-FDC240D424ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD4D8F0B-39BF-493A-9F97-71ED69D6F70B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD4D8F0B-39BF-493A-9F97-71ED69D6F70B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD4D8F0B-39BF-493A-9F97-71ED69D6F70B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD4D8F0B-39BF-493A-9F97-71ED69D6F70B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

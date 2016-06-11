@@ -10,7 +10,7 @@ namespace ES.Core
 {
     public class ESCore
     {
-        private static string ESBaseUrl = "http://2.5.157.118:9200/";
+        private static string ESBaseUrl = "http://2.5.157.189:9200/";
         private static HttpRequestEx esreqest = new HttpRequestEx();
 
         /// <summary>

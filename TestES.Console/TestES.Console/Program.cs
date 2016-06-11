@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Ljc.Com.NewsService.Entity;
 using ES.Core.SearchCondition;
+using ES.Core.Index;
+using LJC.FrameWork.Comm;
 
 namespace TestES.Console
 {
     class Program
     {
-        static string BaseUrl = "http://2.5.157.118:9200/";
+        static string BaseUrl = "http://2.5.157.189:9200/";
 
         public static void AddNews()
         {
@@ -18,11 +20,16 @@ namespace TestES.Console
                 Cdate=DateTime.Now,
                 Class="gjcj",
                 Clicktime=1,
-                Conkeywords="abc",
-                Content="is my first news from gjcj",
+                Title="英国脱欧公投悬念重重 高盛：如何交易英镑？",
+                Content=@"FX168财经报社(香港)讯 随着英国6月23日脱欧公投日的临近，近期英镑汇率波动明显加剧，高盛集团(Goldman Sachs)在最新的报告中对于围绕公投结果如何交易英镑向投资者给出建议。
+      以下是高盛分析师Silvia Ardagna、Robin Brooks和Michael Cahill所撰报告的主要内容：
+      跟所有主要货币一样，上周五(6月3日)异常糟糕的非农报告之后，英镑出现上涨，但涨势不及其它主要货币。英镑兑十国集团(G10)货币(除美元之外)出现贬值，这一趋势在大约10天前就变得愈发明显，当时对英国公投结果的民调再度显示，脱欧阵营和留欧阵营将势均力敌。",
                 IsHtmlMaked=true,
                 IsRead=true,
             };
+
+            doc.DocumentID = "284266";
+            doc.IndexName = "cjzf.news";
 
             ES.Core.ESCore.Index<NewsEntity>(doc);
         }
@@ -93,13 +100,21 @@ namespace TestES.Console
             var str = s.ToString();
         }
 
+        static void Mapping()
+        {
+            Mappings mps = new Mappings("news");
+            mps.Deafult(d => d.All(a => a.Enabled(true))).Resource(r => r.Property(p => p.SetPropertyName("xx").SetIndex("idx")).Property(p2 => p2.SetIndex("p2")));
+        }
+
         static void Main(string[] args)
         {
+            
+
             //var boo = ES.Core.ESCore.CreateIndex("test2");
 
             //var boo1 = ES.Core.ESCore.DeleteIndex("test2");
 
-            //AddNews();
+            AddNews();
 
             //GetNews();
 
@@ -109,7 +124,7 @@ namespace TestES.Console
 
             //TestMOp();
 
-            Search2();
+            //Search2();
         }
     }
 }
