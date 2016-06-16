@@ -58,13 +58,14 @@
     <Compile Include="API\GetDocumentResponse.cs" />
     <Compile Include="API\IndexResponse.cs" />
     <Compile Include="API\MGetDocumentResponse.cs" />
-    <Compile Include="Index\AllMapping.cs" />
-    <Compile Include="Index\DefaultMapping.cs" />
+    <Compile Include="Index\PropertyIndexSet.cs" />
+    <Compile Include="Index\IndexSetting.cs" />
     <Compile Include="Index\Mapping.cs" />
-    <Compile Include="Index\MappingResource.cs" />
+    <Compile Include="Index\MappingType.cs" />
     <Compile Include="Index\Properties.cs" />
     <Compile Include="Index\Property.cs" />
     <Compile Include="Index\PropertyType.cs" />
+    <Compile Include="Index\WellknownAnalyzer.cs" />
     <Compile Include="NameValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBuilder.cs" />

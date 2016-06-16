@@ -56,6 +56,7 @@ namespace TestES.Console
             sw.Start();
             for (int i = 0; i < 100000; i++)
             {
+                ;
                 ES.Core.BulkOpBuilder bb = new ES.Core.BulkOpBuilder();
                 bb.Update<NewsEntity>(new ES.Core.ESDocument<NewsEntity>
                 {
@@ -94,7 +95,7 @@ namespace TestES.Console
             ES.Core.SearchCondition.Search s = new Search();
             s.Query(p => p.Filter(f => f.Bool(b => b.Must(m => m.Term(t => t.Add("address", "mill").Add("ss", "sfd"))
                 .Range(r=>r.AddGT("g",1).AddLT("g",2).AddLT("x",10)))
-                .Should(sx=>sx.Term(t=>t.Add("ff","ll")).Prefix("mm","我爱你"))
+                .Should(sx=>sx.Term(t=>t.Add("ff","ll")).Prefix("mm","last"))
                 ))//.Filter(f2=>f2.Range(r=>r.AddGT("r11",0).AddLTE("r11",10).AddGT("r12",11).AddLT("r13",19)))
                 ).Source(s2=>s2.Add("haha").Add("ssssss"));
             var str = s.ToString();
@@ -103,18 +104,28 @@ namespace TestES.Console
         static void Mapping()
         {
             Mappings mps = new Mappings("news");
-            mps.Deafult(d => d.All(a => a.Enabled(true))).Resource(r => r.Property("p1", p1 => p1.SetIndex("idex1")).Property("p2",p2=>p2.SetStore(true)));
+            mps.Mapping("news",r => r.Property("p1", p1 => p1.SetIndex(PropertyIndexSet.not_analyzed)).Property("p2",p2=>p2.SetStore(true)));
         }
 
         static void Main(string[] args)
         {
-            
+            var boo1 = ES.Core.ESCore.DeleteIndex("cjzf.news");
+
+            var boo = ES.Core.ESCore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings("news")
+                .Mapping("news",r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
+                .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
+                .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
+                .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik")))
+                .Mapping("news2",r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
+                .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
+                .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
+                .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))));
 
             //var boo = ES.Core.ESCore.CreateIndex("test2");
 
             //var boo1 = ES.Core.ESCore.DeleteIndex("test2");
 
-            //AddNews();
+            AddNews();
 
             //GetNews();
 
@@ -126,7 +137,7 @@ namespace TestES.Console
 
             //Search2();
 
-            Mapping();
+            //Mapping();
         }
     }
 }

@@ -62,7 +62,7 @@ namespace ES.Core.SearchCondition
         }
 
 
-        public void BuildString(JsonTextWriter writer)
+        internal void BuildString(JsonTextWriter writer)
         {
             writer.WritePropertyName("should");
 

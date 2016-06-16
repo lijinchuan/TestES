@@ -15,49 +15,47 @@ namespace ES.Core.Index
             _typename = typename;
         }
 
-        private DefaultMapping _default;
-        public Mappings Deafult(Action<DefaultMapping> defaultmapping)
+        private Dictionary<string,MappingType> _mappintTypes;
+        public Mappings Mapping(string typename,Action<MappingType> resource)
         {
-            if(_default==null)
+            if (_mappintTypes == null)
             {
-                _default = new DefaultMapping();
+                _mappintTypes = new Dictionary<string, MappingType>();
             }
 
-            defaultmapping(_default);
+            if (!_mappintTypes.ContainsKey(typename))
+            {
+                _mappintTypes.Add(typename, new MappingType());
+            }
+
+            var maptype = _mappintTypes[typename];
+
+            resource(maptype);
 
             return this;
         }
 
-        private MappingResource _resource;
-        public Mappings Resource(Action<MappingResource> resource)
-        {
-            if (_resource == null)
-                _resource = new MappingResource();
-
-            resource(_resource);
-
-            return this;
-        }
-
-        public void BuildString(JsonWriter writer)
+        internal void BuildString(JsonWriter writer)
         {
 
             writer.WritePropertyName("mappings");
 
             writer.WriteStartObject();
 
-            writer.WritePropertyName(_typename);
-            writer.WriteStartObject();
-            if(_default!=null)
-            {
-                _default.BuildString(writer);
-            }
+            //writer.WritePropertyName(_typename);
+            //writer.WriteStartObject();
 
-            if(_resource!=null)
+            if(_mappintTypes!=null)
             {
-                _resource.BuildString(writer);
+                foreach (var kv in _mappintTypes)
+                {
+                    writer.WritePropertyName(kv.Key);
+                    writer.WriteStartObject();
+                    kv.Value.BuildString(writer);
+                    writer.WriteEndObject();
+                }
             }
-            writer.WriteEndObject();
+            //writer.WriteEndObject();
             writer.WriteEndObject();
         }
 

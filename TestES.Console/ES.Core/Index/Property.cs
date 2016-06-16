@@ -51,11 +51,14 @@ namespace ES.Core.Index
         /// Index表示该字段是否索引，如果index为no那个analyzer设为啥也没用。
         /// </summary>
         [JsonProperty("index")]
-        internal string _index = "analyzed";
+        internal string _index;
 
-        public Property SetIndex(string index)
+        public Property SetIndex(PropertyIndexSet indexset)
         {
-            _index = index;
+            if(indexset!=PropertyIndexSet._default)
+            {
+                _index = indexset.ToString();
+            }
             return this;
         }
 
@@ -132,7 +135,7 @@ namespace ES.Core.Index
             return this;
         }
 
-        public void BuildString(JsonWriter writer)
+        internal void BuildString(JsonWriter writer)
         {
             if (string.IsNullOrWhiteSpace("_propertyName"))
                 throw new Exception("_propertyName不能为空");

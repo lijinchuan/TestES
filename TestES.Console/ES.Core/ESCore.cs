@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
+using ES.Core.Index;
 
 namespace ES.Core
 {
@@ -26,6 +27,32 @@ namespace ES.Core
                 throw new ArgumentNullException("indexname");
 
             string data = string.Format("{{\"settings\":{{\"index\":{{\"number_of_shards\":\"{0}\",\"number_of_replicas\":\"{1}\"}}}}}}", number_of_shards, number_of_replicas);
+            var httpresponse = esreqest.DoRequest(ESBaseUrl + indexname, data, WebRequestMethodEnum.PUT, false);
+
+            if (!httpresponse.Successed)
+                return false;
+
+            var response = JsonHelper.JsonToEntity<AcknowledgedResponse>(httpresponse.ResponseContent);
+
+            return response.Acknowledged;
+        }
+
+        /// <summary>
+        /// 创建索引
+        /// </summary>
+        /// <param name="indexname"></param>
+        /// <param name="number_of_shards"></param>
+        /// <param name="number_of_replicas"></param>
+        /// <returns></returns>
+        public static bool CreateIndex(string indexname, IndexSetting setting, Mappings mappings)
+        {
+            if (string.IsNullOrWhiteSpace(indexname))
+                throw new ArgumentNullException("indexname");
+
+            string data = string.Format("{{{0},{1}}}", setting.ToString(), mappings.ToString());
+
+
+            
             var httpresponse = esreqest.DoRequest(ESBaseUrl + indexname, data, WebRequestMethodEnum.PUT, false);
 
             if (!httpresponse.Successed)

@@ -26,7 +26,7 @@ namespace ES.Core.Index
             return this;
         }
 
-        public void BuildString(JsonWriter writer)
+        internal void BuildString(JsonWriter writer)
         {
             writer.WritePropertyName("properties");
 

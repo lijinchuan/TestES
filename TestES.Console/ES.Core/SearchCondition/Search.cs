@@ -49,7 +49,7 @@ namespace ES.Core.SearchCondition
             return this;
         }
 
-        public void BuildString(JsonTextWriter writer)
+        internal void BuildString(JsonTextWriter writer)
         {
             writer.WriteStartObject();
 
