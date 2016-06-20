@@ -43,7 +43,7 @@ namespace ES.Core.SearchCondition
         private Text _text;
         public Must Text(string name,string text)
         {
-            if (_text != null)
+            if (_text == null)
                 _text = new Text();
             _text.Add(name, text);
             return this;

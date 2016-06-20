@@ -8,13 +8,6 @@ namespace ES.Core.SearchCondition
 {
     public class Query
     {
-        private Match _mutch = new Match();
-        public void Mutch(string name,object value)
-        {
-            _mutch.Add(name, value);
-        }
-
-
         private Filtered _filtered;
         public Query Filter(Action<Filter> filter)
         {

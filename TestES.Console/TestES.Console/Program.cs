@@ -11,7 +11,7 @@ namespace TestES.Console
 {
     class Program
     {
-        static string BaseUrl = "http://2.5.157.189:9200/";
+        static string BaseUrl = "http://2.5.158.15:9200/";
 
         public static void AddNews()
         {
@@ -93,39 +93,33 @@ namespace TestES.Console
         static void Search2()
         {
             ES.Core.SearchCondition.Search s = new Search();
-            s.Query(p => p.Filter(f => f.Bool(b => b.Must(m => m.Term(t => t.Add("address", "mill").Add("ss", "sfd"))
-                .Range(r=>r.AddGT("g",1).AddLT("g",2).AddLT("x",10)))
-                .Should(sx=>sx.Term(t=>t.Add("ff","ll")).Prefix("mm","last"))
-                ))//.Filter(f2=>f2.Range(r=>r.AddGT("r11",0).AddLTE("r11",10).AddGT("r12",11).AddLT("r13",19)))
-                ).Source(s2=>s2.Add("haha").Add("ssssss"));
+            s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Match(t=>t.Add("class","国际财经"))))));
+
+      
             var str = s.ToString();
         }
 
         static void Mapping()
         {
-            Mappings mps = new Mappings("news");
+            Mappings mps = new Mappings();
             mps.Mapping("news",r => r.Property("p1", p1 => p1.SetIndex(PropertyIndexSet.not_analyzed)).Property("p2",p2=>p2.SetStore(true)));
         }
 
         static void Main(string[] args)
         {
-            var boo1 = ES.Core.ESCore.DeleteIndex("cjzf.news");
+            //var boo1 = ES.Core.ESCore.DeleteIndex("cjzf.news");
 
-            var boo = ES.Core.ESCore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings("news")
-                .Mapping("news",r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
-                .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
-                .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
-                .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik")))
-                .Mapping("news2",r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
-                .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
-                .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
-                .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))));
+            //var boo = ES.Core.ESCore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings()
+            //    .Mapping("news",r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
+            //    .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
+            //    .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
+            //    .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))));
 
             //var boo = ES.Core.ESCore.CreateIndex("test2");
 
             //var boo1 = ES.Core.ESCore.DeleteIndex("test2");
 
-            AddNews();
+            //AddNews();
 
             //GetNews();
 
@@ -135,7 +129,7 @@ namespace TestES.Console
 
             //TestMOp();
 
-            //Search2();
+            Search2();
 
             //Mapping();
         }

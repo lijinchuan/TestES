@@ -9,10 +9,8 @@ namespace ES.Core.Index
 {
     public class Mappings
     {
-        private string _typename = string.Empty;
-        public Mappings(string typename)
+        public Mappings()
         {
-            _typename = typename;
         }
 
         private Dictionary<string,MappingType> _mappintTypes;
@@ -42,9 +40,6 @@ namespace ES.Core.Index
 
             writer.WriteStartObject();
 
-            //writer.WritePropertyName(_typename);
-            //writer.WriteStartObject();
-
             if(_mappintTypes!=null)
             {
                 foreach (var kv in _mappintTypes)
@@ -55,7 +50,6 @@ namespace ES.Core.Index
                     writer.WriteEndObject();
                 }
             }
-            //writer.WriteEndObject();
             writer.WriteEndObject();
         }
 
