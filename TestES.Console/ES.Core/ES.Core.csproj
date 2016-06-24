@@ -58,6 +58,7 @@
     <Compile Include="API\GetDocumentResponse.cs" />
     <Compile Include="API\IndexResponse.cs" />
     <Compile Include="API\MGetDocumentResponse.cs" />
+    <Compile Include="Index\Field.cs" />
     <Compile Include="Index\PropertyIndexSet.cs" />
     <Compile Include="Index\IndexSetting.cs" />
     <Compile Include="Index\Mapping.cs" />

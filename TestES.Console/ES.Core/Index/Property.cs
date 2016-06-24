@@ -135,6 +135,11 @@ namespace ES.Core.Index
             return this;
         }
 
+        public Property Fields(string fieldname,Action<Field> field)
+        {
+            throw new NotImplementedException();
+        }
+
         internal void BuildString(JsonWriter writer)
         {
             if (string.IsNullOrWhiteSpace("_propertyName"))
