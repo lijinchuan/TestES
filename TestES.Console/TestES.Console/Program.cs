@@ -11,7 +11,7 @@ namespace TestES.Console
 {
     class Program
     {
-        static string BaseUrl = "http://2.5.158.165:8080/el";
+        static ES.Core.ESCore escore = new ES.Core.ESCore("http://2.5.158.165:8080/el/");
 
         public static void AddNews()
         {
@@ -31,23 +31,23 @@ namespace TestES.Console
             doc.DocumentID = "284266";
             doc.IndexName = "cjzf.news";
 
-            ES.Core.ESCore.Index<NewsEntity>(doc);
+            escore.Index<NewsEntity>(doc);
         }
 
         public static void GetNews()
         {
-            ES.Core.ESCore.Get3<NewsEntity>("cjzf.news", "newsentity", "1", p => p.NewsDate, p => p.Title, p => p.Content);
+            escore.Get3<NewsEntity>("cjzf.news", "newsentity", "1", p => p.NewsDate, p => p.Title, p => p.Content);
         }
 
         public static void Exsits()
         {
-            var boo = ES.Core.ESCore.Exists("cjzf.news", "newsentity", "2");
+            var boo = escore.Exists("cjzf.news", "newsentity", "2");
         }
 
 
         public static void MGet()
         {
-            var docs = ES.Core.ESCore.MGet<NewsEntity>("cjzf.news", "newsentity", new[] { "1", "AVUop3rauxn7koQ8tpYk", "AVUoqgM6uxn7koQ8tpYm" });
+            var docs = escore.MGet<NewsEntity>("cjzf.news", "newsentity", new[] { "1", "AVUop3rauxn7koQ8tpYk", "AVUoqgM6uxn7koQ8tpYm" });
         }
 
         static void TestMOp()
@@ -93,11 +93,12 @@ namespace TestES.Console
         static void Search2()
         {
             ES.Core.SearchCondition.Search s = new Search();
-            s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Match(t=>t.Add("class","国际财经"))))));
+            s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Match(t=>t.Add("class","国际财经")))))).From(0).Size(10);
+            
 
             var str = s.ToString();
 
-            var result = ES.Core.ESCore.Search<NewsEntity>(s);
+            var result = escore.Search<NewsEntity>(s);
         }
 
         static void Mapping()

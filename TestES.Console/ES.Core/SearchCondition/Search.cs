@@ -34,7 +34,7 @@ namespace ES.Core.SearchCondition
         }
 
         private long _size=10;
-        private Search Size(long sz)
+        public Search Size(long sz)
         {
             _size = sz;
 

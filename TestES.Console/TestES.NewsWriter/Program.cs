@@ -9,6 +9,7 @@ namespace TestES.NewsWriter
 {
     class Program
     {
+        static ES.Core.ESCore escore = new ES.Core.ESCore("http://2.5.158.165:8080/el/");
         static void Main(string[] args)
         {
             try
@@ -41,8 +42,7 @@ namespace TestES.NewsWriter
                         doc.DocumentID = news.Id.ToString();
                         doc.DocumentType = "news";
                         doc.IndexName = "cjzf.news";
-
-                        ES.Core.ESCore.Index<NewsEntity>(doc);
+                        escore.Index<NewsEntity>(doc);
 
                         Console.WriteLine("写入新闻成功,第" + count + "条,新闻ID：" + news.Id + "：" + news.Title);
                     }
