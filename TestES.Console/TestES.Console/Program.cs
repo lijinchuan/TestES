@@ -11,7 +11,7 @@ namespace TestES.Console
 {
     class Program
     {
-        static string BaseUrl = "http://2.5.158.15:9200/";
+        static string BaseUrl = "http://2.5.158.165:8080/el";
 
         public static void AddNews()
         {
@@ -95,8 +95,9 @@ namespace TestES.Console
             ES.Core.SearchCondition.Search s = new Search();
             s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Match(t=>t.Add("class","国际财经"))))));
 
-      
             var str = s.ToString();
+
+            var result = ES.Core.ESCore.Search<NewsEntity>(s);
         }
 
         static void Mapping()

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\AcknowledgedResponse.cs" />
+    <Compile Include="API\SearchResponse.cs" />
     <Compile Include="BulkOpBuilder.cs" />
     <Compile Include="API\BulkOpResponse.cs" />
     <Compile Include="ESCore.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Index\Property.cs" />
     <Compile Include="Index\PropertyType.cs" />
     <Compile Include="Index\WellknownAnalyzer.cs" />
+    <Compile Include="Model\Shards.cs" />
     <Compile Include="NameValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBuilder.cs" />

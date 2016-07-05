@@ -6,12 +6,14 @@ using System.Text;
 using System.Linq.Expressions;
 using Newtonsoft.Json;
 using ES.Core.Index;
+using ES.Core.API;
+using ES.Core.SearchCondition;
 
 namespace ES.Core
 {
     public class ESCore
     {
-        private static string ESBaseUrl = "http://2.5.158.15:9200/";
+        private static string ESBaseUrl = "http://2.5.158.165:8080/el/";
         private static HttpRequestEx esreqest = new HttpRequestEx();
 
         /// <summary>
@@ -242,6 +244,19 @@ namespace ES.Core
 
         }
 
-        
+        public static SearchResponse<T> Search<T>(Search search)
+        {
+            string searchurl = ESBaseUrl + "/_search";
+            var resp = esreqest.DoRequest(searchurl, search.ToString(), WebRequestMethodEnum.POST, false);
+
+            if (resp.Successed)
+            {
+                return JsonUtil<SearchResponse<T>>.Deserialize(resp.ResponseContent);
+            }
+            else
+            {
+                return default(SearchResponse<T>);
+            }
+        }
     }
 }
