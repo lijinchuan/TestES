@@ -19,7 +19,7 @@ namespace ES.Core.API
             }
 
             [JsonProperty("max_score")]
-            public double MaxScore
+            public double? MaxScore
             {
                 get;
                 set;

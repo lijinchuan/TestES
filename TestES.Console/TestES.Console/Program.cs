@@ -11,7 +11,7 @@ namespace TestES.Console
 {
     class Program
     {
-        static ES.Core.ESCore escore = new ES.Core.ESCore("http://2.5.158.165:8080/el/");
+        static ES.Core.ESCore escore = new ES.Core.ESCore("http://2.5.158.163:8080/el/");
 
         public static void AddNews()
         {
@@ -101,6 +101,17 @@ namespace TestES.Console
             var result = escore.Search<NewsEntity>(s);
         }
 
+        static void Search3()
+        {
+            ES.Core.SearchCondition.Search s = new Search();
+            s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Term(t => t.Add("title", "万科").Add("title", "公告")))))).From(0).Size(10);
+
+
+            var str = s.ToString();
+
+            var result = escore.Search<NewsEntity>(s);
+        }
+
         static void Mapping()
         {
             Mappings mps = new Mappings();
@@ -131,7 +142,7 @@ namespace TestES.Console
 
             //TestMOp();
 
-            Search2();
+            Search3();
 
             //Mapping();
         }
