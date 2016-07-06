@@ -104,7 +104,8 @@ namespace TestES.Console
         static void Search3()
         {
             ES.Core.SearchCondition.Search s = new Search();
-            s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Term(t => t.Add("title", "万科").Add("title", "公告")))))).From(0).Size(10);
+            s.Query(q => q.Filter(f => f.Bool(b => b.Must(m => m.Term(t => t.Add("title", "万科").Add("title", "公告")))))).From(0).Size(10)
+                .Sort(st=>st.Asc("ctime").Desc("id"));
 
 
             var str = s.ToString();
