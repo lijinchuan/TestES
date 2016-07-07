@@ -62,6 +62,20 @@ namespace ES.Core.SearchCondition
         }
 
 
+        private List<BoolFilter> _boolfiterList;
+        public Should Bool(Action<BoolFilter> boo)
+        {
+            if (_boolfiterList == null)
+                _boolfiterList = new List<BoolFilter>();
+
+            var boofiter = new BoolFilter();
+            boo(boofiter);
+
+            _boolfiterList.Add(boofiter);
+            return this;
+        }
+
+
         internal void BuildString(JsonTextWriter writer)
         {
             writer.WritePropertyName("should");
@@ -92,8 +106,19 @@ namespace ES.Core.SearchCondition
                 _wildcard.BuildString(writer);
             }
 
+            if (_boolfiterList != null&&_boolfiterList.Count>0)
+            {
+                foreach (var boofiter in _boolfiterList)
+                {
+                    writer.WriteStartObject();
+                    boofiter.BuildString(writer);
+                    writer.WriteEndObject();
+                }
+            }
+
             writer.WriteEndArray();
 
+            
         }
 
     }

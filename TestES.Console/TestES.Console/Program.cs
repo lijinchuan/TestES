@@ -124,22 +124,21 @@ namespace TestES.Console
             Search search = new Search();
             search.Query(q => q.Filter(ft => ft.Bool(bo => bo.Should(s1 =>
             {
-                s1.Term(t =>
+                s1.Bool(boo=>boo.Must(mm=>mm.Term(t =>
                 {
                     foreach (var key in keys)
                     {
                         t.Add("title", key);
                     }
-                });
-            }).Should(s2 =>
-            {
-                s2.Term(t =>
+                })));
+
+                s1.Bool(boo => boo.Must(mm => mm.Term(t =>
                 {
                     foreach (var key in keys)
                     {
                         t.Add("content", key);
                     }
-                });
+                })));
             })))).Sort(st => st.Desc("newsdate")).From(0)
                 .Size(20)
                 .Source(s => s.Add("title").Add("id").Add("newsdate").Add("class"));
