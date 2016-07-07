@@ -57,7 +57,7 @@ namespace ES.Core.API
             }
 
             [JsonProperty("_score")]
-            public double Score
+            public double? Score
             {
                 get;
                 set;

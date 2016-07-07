@@ -9,6 +9,8 @@ namespace ES.Core.SearchCondition
 {
     public class Search
     {
+        private Sort _sort = null;
+
         private Query _query=null;
         public Search Query(Action<Query> query)
         {
@@ -49,6 +51,19 @@ namespace ES.Core.SearchCondition
             return this;
         }
 
+        public Search Sort(Action<Sort> sort)
+        {
+            if (sort == null)
+                return this;
+
+            if (_sort == null)
+                _sort = new Sort();
+
+            sort(_sort);
+
+            return this;
+        }
+
         internal void BuildString(JsonTextWriter writer)
         {
             writer.WriteStartObject();
@@ -68,6 +83,11 @@ namespace ES.Core.SearchCondition
 
             writer.WritePropertyName("size");
             writer.WriteValue(_size);
+
+            if(_sort!=null)
+            {
+                _sort.BuildString(writer);
+            }
 
             writer.WriteEndObject();
         }
