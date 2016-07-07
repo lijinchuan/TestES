@@ -41,16 +41,27 @@ namespace ES.Core.SearchCondition
                     
                     if (list.Count > 1)
                     {
-                        writer.WriteStartObject();
-                        writer.WritePropertyName(this.Condition+"s");
-                        writer.WriteStartObject();
-                        writer.WritePropertyName(kv.Key);
-                        writer.WriteStartArray();
-                        foreach(var it in list)
+                        //writer.WriteStartObject();
+                        //writer.WritePropertyName(this.Condition+"s");
+                        //writer.WriteStartObject();
+                        //writer.WritePropertyName(kv.Key);
+                        //writer.WriteStartArray();
+                        //foreach(var it in list)
+                        //{
+                        //    writer.WriteValue(it);
+                        //}
+                        //writer.WriteEndArray();
+
+                        foreach (var it in list)
                         {
+                            writer.WriteStartObject();
+                            writer.WritePropertyName(this.Condition);
+                            writer.WriteStartObject();
+                            writer.WritePropertyName(kv.Key);
                             writer.WriteValue(it);
+                            writer.WriteEndObject();
+                            writer.WriteEndObject();
                         }
-                        writer.WriteEndArray();
                     }
                     else
                     {
@@ -59,10 +70,9 @@ namespace ES.Core.SearchCondition
                         writer.WriteStartObject();
                         writer.WritePropertyName(kv.Key);
                         writer.WriteValue(list[0]);
+                        writer.WriteEndObject();
+                        writer.WriteEndObject();
                     }
-
-                    writer.WriteEndObject();
-                    writer.WriteEndObject();
                 }
             }
             else
