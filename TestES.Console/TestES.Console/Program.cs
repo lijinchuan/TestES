@@ -113,6 +113,7 @@ namespace TestES.Console
             var result = escore.Search<NewsEntity>(s);
         }
 
+        //搜索新闻
         public static void SearchNews(string request)
         {
             if (string.IsNullOrWhiteSpace(request))
