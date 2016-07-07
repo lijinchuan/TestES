@@ -9,6 +9,7 @@ namespace ES.Core.Index
     {
         STRING,
         DATE,
+        integer,
         BOOLEAN,
         BINARY,
         IP,

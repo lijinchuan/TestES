@@ -153,13 +153,15 @@ namespace TestES.Console
 
         static void Main(string[] args)
         {
-            //var boo1 = ES.Core.ESCore.DeleteIndex("cjzf.news");
+            //var boo1 = escore.DeleteIndex("cjzf.news");
 
-            //var boo = ES.Core.ESCore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings()
-            //    .Mapping("news",r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
+            //var boo = escore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings()
+            //    .Mapping("news", r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
             //    .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
             //    .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
-            //    .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))));
+            //    .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
+            //    .Property("newsdate", p => p.SetType(PropertyType.DATE))
+            //    .Property("id",p=>p.SetType(PropertyType.integer))));
 
             //var boo = ES.Core.ESCore.CreateIndex("test2");
 

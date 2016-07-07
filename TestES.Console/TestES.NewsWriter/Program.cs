@@ -9,7 +9,7 @@ namespace TestES.NewsWriter
 {
     class Program
     {
-        static ES.Core.ESCore escore = new ES.Core.ESCore("http://2.5.158.165:8080/el/");
+        static ES.Core.ESCore escore = new ES.Core.ESCore("http://ljcserver:9200/");
         static void Main(string[] args)
         {
             try
@@ -27,16 +27,12 @@ namespace TestES.NewsWriter
                         var doc = new ES.Core.ESDocument<NewsEntity>();
                         doc.Document = new NewsEntity
                         {
-                            Cdate = DateTime.Now,
                             Class = news.Class,
-                            Clicktime = news.Clicktime,
                             Title = news.Title,
-                            IsHtmlMaked = news.IsHtmlMaked,
-                            IsRead = news.IsRead,
-                            Formurl = news.Formurl,
                             NewsDate = news.NewsDate,
                             Source = news.Source,
                             Content=news.Content,
+                            Id=news.Id,
                         };
 
                         doc.DocumentID = news.Id.ToString();
