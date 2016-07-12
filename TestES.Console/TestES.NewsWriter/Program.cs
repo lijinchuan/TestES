@@ -12,46 +12,54 @@ namespace TestES.NewsWriter
         static ES.Core.ESCore escore = new ES.Core.ESCore("http://ljcserver:9200/");
         static void Main(string[] args)
         {
-            try
-            {
-                var list = DataContextMoudelFactory<NewsEntity>.GetDataContext("ConndbDB$CjzfDB")
-                    .WhereBigerEq(p => p.Cdate, DateTime.Now.AddDays(-7)).Top(10000000).ExecuteList();
-
-                Console.WriteLine("开始写入新闻：" + list.Count + "条");
-                int count = 0;
-                foreach (var news in list)
+                var maxid = DataContextMoudelFactory<NewsEntity>.GetDataContext("ConndbDB$CjzfDB").Max("id");
+                //var maxid = 304734;
+                List<NewsEntity> list;
+                while ((list = DataContextMoudelFactory<NewsEntity>.GetDataContext("ConndbDB$CjzfDB")
+                    .WhereSmallerEq(p => p.Id, maxid)
+                    .WhereNotEq(p => p.Class, "公告")
+                    .OrderByDesc(p => p.Id)
+                    .Top(1000).ExecuteList()).Count > 0)
                 {
-                    count++;
+                    maxid = list.Last().Id - 1;
                     try
                     {
-                        var doc = new ES.Core.ESDocument<NewsEntity>();
-                        doc.Document = new NewsEntity
+                        Console.WriteLine("开始写入新闻：" + list.Count + "条");
+                        int count = 0;
+                        foreach (var news in list)
                         {
-                            Class = news.Class,
-                            Title = news.Title,
-                            NewsDate = news.NewsDate,
-                            Source = news.Source,
-                            Content=news.Content,
-                            Id=news.Id,
-                        };
+                            count++;
+                            try
+                            {
+                                var doc = new ES.Core.ESDocument<NewsEntity>();
+                                doc.Document = new NewsEntity
+                                {
+                                    Class = news.Class,
+                                    Title = news.Title,
+                                    NewsDate = news.NewsDate,
+                                    Source = news.Source,
+                                    Content = news.Content,
+                                    Id = news.Id,
+                                };
 
-                        doc.DocumentID = news.Id.ToString();
-                        doc.DocumentType = "news";
-                        doc.IndexName = "cjzf.news";
-                        escore.Index<NewsEntity>(doc);
+                                doc.DocumentID = news.Id.ToString();
+                                doc.DocumentType = "news";
+                                doc.IndexName = "cjzf.news";
+                                escore.Index<NewsEntity>(doc);
 
-                        Console.WriteLine("写入新闻成功,第" + count + "条,新闻ID：" + news.Id + "：" + news.Title);
+                                Console.WriteLine("写入新闻成功,第" + count + "条,新闻ID：" + news.Id + "：" + news.Title);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("写入新闻失败,第" + count + "条," + news.Id + "：" + ex.Message);
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("写入新闻失败,第" + count + "条," + news.Id + "：" + ex.Message);
+                        Console.WriteLine(ex.Message);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
 
             Console.Read();
 

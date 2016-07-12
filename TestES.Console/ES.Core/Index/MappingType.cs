@@ -17,7 +17,8 @@ namespace ES.Core.Index
         /// <summary>
         /// 
         /// </summary>
-        private bool? _source;
+        private bool? _sourceEnabled;
+        private string[] _sourceExcludes = null;
 
         public MappingType SetDynamic(bool value)
         {
@@ -33,7 +34,14 @@ namespace ES.Core.Index
         /// <returns></returns>
         public MappingType EnableSource(bool value)
         {
-            _source = value;
+            _sourceEnabled = value;
+
+            return this;
+        }
+
+        public MappingType SourceExcludes(params string[] fields)
+        {
+            this._sourceExcludes = fields;
 
             return this;
         }
@@ -54,14 +62,27 @@ namespace ES.Core.Index
 
             //writer.WriteStartObject();
 
-            if (_source != null)
+
+            writer.WritePropertyName("_source");
+            writer.WriteStartObject();
+            if (_sourceEnabled != null)
             {
-                writer.WritePropertyName("_source");
-                writer.WriteStartObject();
                 writer.WritePropertyName("enabled");
-                writer.WriteValue(_source);
-                writer.WriteEndObject();
+                writer.WriteValue(_sourceEnabled);
             }
+
+            if (_sourceExcludes != null && _sourceExcludes.Length > 0)
+            {
+                writer.WritePropertyName("excludes");
+
+                writer.WriteStartArray();
+                foreach (var ex in _sourceExcludes)
+                {
+                    writer.WriteValue(ex);
+                }
+                writer.WriteEndArray();
+            }
+            writer.WriteEndObject();
 
 
             if(_dynamic!=null)

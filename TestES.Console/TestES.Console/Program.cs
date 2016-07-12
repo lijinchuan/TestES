@@ -11,7 +11,7 @@ namespace TestES.Console
 {
     class Program
     {
-        static ES.Core.ESCore escore = new ES.Core.ESCore("http://2.5.158.220:8080/el/");
+        static ES.Core.ESCore escore = new ES.Core.ESCore("http://ljcserver:9200/");
 
         public static void AddNews()
         {
@@ -153,15 +153,15 @@ namespace TestES.Console
 
         static void Main(string[] args)
         {
-            //var boo1 = escore.DeleteIndex("cjzf.news");
+            var boo1 = escore.DeleteIndex("cjzf.news");
 
-            //var boo = escore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings()
-            //    .Mapping("news", r => r.EnableSource(true).Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
-            //    .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING))
-            //    .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
-            //    .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik"))
-            //    .Property("newsdate", p => p.SetType(PropertyType.DATE))
-            //    .Property("id",p=>p.SetType(PropertyType.integer))));
+            var boo = escore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings()
+                .Mapping("news", r => r.SourceExcludes("content").Property("content", p => p.SetAnalyzer("ik").SetType(PropertyType.STRING))
+                .Property("class", p => p.SetIndex(PropertyIndexSet.not_analyzed).SetType(PropertyType.STRING).SetStore(true))
+                .Property("title", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik").SetStore(true))
+                .Property("source", p => p.SetType(PropertyType.STRING).SetAnalyzer("ik").SetStore(true))
+                .Property("newsdate", p => p.SetType(PropertyType.DATE).SetStore(true))
+                .Property("id", p => p.SetType(PropertyType.integer).SetStore(true))));
 
             //var boo = ES.Core.ESCore.CreateIndex("test2");
 
