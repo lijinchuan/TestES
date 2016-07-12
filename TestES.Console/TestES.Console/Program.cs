@@ -153,6 +153,8 @@ namespace TestES.Console
 
         static void Main(string[] args)
         {
+            var re = escore.AnalyzeWord(null, "ik", "我是中国人");
+
             var boo1 = escore.DeleteIndex("cjzf.news");
 
             var boo = escore.CreateIndex("cjzf.news", new IndexSetting(), new Mappings()

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using ES.Core.Index;
 using ES.Core.API;
 using ES.Core.SearchCondition;
+using ES.Core.Model;
 
 namespace ES.Core
 {
@@ -261,6 +262,22 @@ namespace ES.Core
             else
             {
                 return default(SearchResponse<T>);
+            }
+        }
+
+        public AnalyzeTokenBag AnalyzeWord(string indexname,string analyzer, string word)
+        {
+            string url = _esBaseUrl + indexname + "/_analyze?analyzer=" + analyzer;
+
+            var resp = esreqest.DoRequest(url, JsonUtil<string>.Serialize(word), WebRequestMethodEnum.POST, false);
+
+            if(resp.Successed)
+            {
+                return JsonUtil<AnalyzeTokenBag>.Deserialize(resp.ResponseContent);
+            }
+            else
+            {
+                return null;
             }
         }
     }

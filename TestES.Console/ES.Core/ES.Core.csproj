@@ -68,6 +68,7 @@
     <Compile Include="Index\Property.cs" />
     <Compile Include="Index\PropertyType.cs" />
     <Compile Include="Index\WellknownAnalyzer.cs" />
+    <Compile Include="Model\AnalyzeToken.cs" />
     <Compile Include="Model\Shards.cs" />
     <Compile Include="NameValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
