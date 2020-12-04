@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{414CB749-DC67-4FE1-88B7-EFACDD8233A2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ESCore6x</RootNamespace>
+    <AssemblyName>ESCore6x</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LJC.FrameWork">
+      <HintPath>..\..\Lib\LJC.FrameWork.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\AcknowledgedResponse.cs" />
+    <Compile Include="API\BulkOpResponse.cs" />
+    <Compile Include="API\GetDocumentResponse.cs" />
+    <Compile Include="API\IndexResponse.cs" />
+    <Compile Include="API\MGetDocumentResponse.cs" />
+    <Compile Include="API\SearchResponse.cs" />
+    <Compile Include="BulkOpBuilder.cs" />
+    <Compile Include="ESCore.cs" />
+    <Compile Include="ESDocument.cs" />
+    <Compile Include="Index\Field.cs" />
+    <Compile Include="Index\IndexSetting.cs" />
+    <Compile Include="Index\Mapping.cs" />
+    <Compile Include="Index\MappingType.cs" />
+    <Compile Include="Index\Properties.cs" />
+    <Compile Include="Index\Property.cs" />
+    <Compile Include="Index\PropertyIndexSet.cs" />
+    <Compile Include="Index\PropertyType.cs" />
+    <Compile Include="Index\WellknownAnalyzer.cs" />
+    <Compile Include="Model\AnalyzeToken.cs" />
+    <Compile Include="Model\Shards.cs" />
+    <Compile Include="NameValuePair.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilder.cs" />
+    <Compile Include="SearchBuilder.cs" />
+    <Compile Include="SearchCondition\BoolFilter.cs" />
+    <Compile Include="SearchCondition\Conditon\ConditionBase.cs" />
+    <Compile Include="SearchCondition\Filter.cs" />
+    <Compile Include="SearchCondition\Filtered.cs" />
+    <Compile Include="SearchCondition\Match.cs" />
+    <Compile Include="SearchCondition\Must.cs" />
+    <Compile Include="SearchCondition\MustNot.cs" />
+    <Compile Include="SearchCondition\Prefix.cs" />
+    <Compile Include="SearchCondition\Query.cs" />
+    <Compile Include="SearchCondition\Range.cs" />
+    <Compile Include="SearchCondition\Search.cs" />
+    <Compile Include="SearchCondition\Should.cs" />
+    <Compile Include="SearchCondition\Sort.cs" />
+    <Compile Include="SearchCondition\Source.cs" />
+    <Compile Include="SearchCondition\Term.cs" />
+    <Compile Include="SearchCondition\Text.cs" />
+    <Compile Include="SearchCondition\Wildcard.cs" />
+    <Compile Include="SearchOperator\BoolFilter.cs" />
+    <Compile Include="SearchOperator\ExistsCondition.cs" />
+    <Compile Include="SearchOperator\FilterCodition.cs" />
+    <Compile Include="SearchOperator\FilteredCondition.cs" />
+    <Compile Include="SearchOperator\GreaterEquelThen.cs" />
+    <Compile Include="SearchOperator\GreaterThen.cs" />
+    <Compile Include="SearchOperator\MatchCondition.cs" />
+    <Compile Include="SearchOperator\MustCondition.cs" />
+    <Compile Include="SearchOperator\MustNotCodition.cs" />
+    <Compile Include="SearchOperator\Range.cs" />
+    <Compile Include="SearchOperator\SearchConditionBase.cs" />
+    <Compile Include="SearchOperator\ShouldCondition.cs" />
+    <Compile Include="SearchOperator\SmallEquelThen.cs" />
+    <Compile Include="SearchOperator\SmallThen.cs" />
+    <Compile Include="SearchOperator\TermCondition.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

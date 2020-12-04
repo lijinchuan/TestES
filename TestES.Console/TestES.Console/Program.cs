@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ljc.Com.NewsService.Entity;
-using ES.Core.SearchCondition;
 using ES.Core.Index;
-using LJC.FrameWork.Comm;
+using ES.Core.SearchCondition;
+using Ljc.Com.NewsService.Entity;
 
 namespace TestES.Console
 {
