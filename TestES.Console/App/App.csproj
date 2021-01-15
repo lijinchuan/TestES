@@ -33,9 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LJC.FrameWork, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\LJC.FrameWork.dll</HintPath>
+    <Reference Include="LJC.FrameWorkV3">
+      <HintPath>..\..\Lib\LJC.FrameWorkV3.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -54,6 +53,9 @@
     <Compile Include="Model\AdjustCourseLog.cs" />
     <Compile Include="Model\AdjustCourseReq.cs" />
     <Compile Include="Model\AdjustCourseResp.cs" />
+    <Compile Include="Model\CourseDeleteReq.cs" />
+    <Compile Include="Model\CourseDelResp.cs" />
+    <Compile Include="Model\DelCourseLog.cs" />
     <Compile Include="Model\LogInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

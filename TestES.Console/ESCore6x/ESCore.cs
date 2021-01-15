@@ -1,5 +1,4 @@
-﻿using LJC.FrameWork.Comm;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +8,7 @@ using ES.Core6x.Index;
 using ES.Core6x.API;
 using ES.Core6x.SearchCondition;
 using ES.Core6x.Model;
+using LJC.FrameWorkV3.Comm;
 
 namespace ES.Core6x
 {
@@ -20,6 +20,13 @@ namespace ES.Core6x
         public ESCore(string url)
         {
             this._esBaseUrl = url;
+            
+        }
+
+        public ESCore(string url,string username,string password)
+        {
+            this._esBaseUrl = url;
+            this.esreqest.Headers.Add("Authorization", $"Basic {Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"))}");
         }
 
         /// <summary>
