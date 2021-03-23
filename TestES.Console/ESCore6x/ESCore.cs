@@ -272,6 +272,21 @@ namespace ES.Core6x
             }
         }
 
+        public T SearchNotStandResponse<T>(string index, Search search)
+        {
+            string searchurl = (_esBaseUrl.EndsWith("/") ? _esBaseUrl : (_esBaseUrl + "/")) + (!string.IsNullOrEmpty(index) ? (index + "/") : string.Empty) + "_search";
+            var resp = esreqest.DoRequest(searchurl, search.ToString(), WebRequestMethodEnum.POST, false, contentType: "application/json");
+
+            if (resp.Successed)
+            {
+                return JsonUtil<T>.Deserialize(resp.ResponseContent);
+            }
+            else
+            {
+                return default(T);
+            }
+        }
+
         public AnalyzeTokenBag AnalyzeWord(string indexname,string analyzer, string word)
         {
             string url = _esBaseUrl + indexname + "/_analyze?analyzer=" + analyzer;
