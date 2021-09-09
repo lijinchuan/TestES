@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LJC.FrameWork">
+      <HintPath>..\..\Lib\LJC.FrameWork.dll</HintPath>
+    </Reference>
     <Reference Include="LJC.FrameWorkV3">
       <HintPath>..\..\Lib\LJC.FrameWorkV3.dll</HintPath>
     </Reference>

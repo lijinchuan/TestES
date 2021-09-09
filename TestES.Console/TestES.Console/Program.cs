@@ -7,7 +7,7 @@ namespace TestES.Console
 {
     class Program
     {
-        static ES.Core.ESCore escore = new ES.Core.ESCore("http://ljcserver:9200/");
+        static ES.Core.ESCore escore = new ES.Core.ESCore("http://ljclearn:9200/");
 
         public static void AddNews()
         {
@@ -149,6 +149,8 @@ namespace TestES.Console
 
         static void Main(string[] args)
         {
+            var tokenbag = escore.AnalyzeWord("cjzf.news", ES.Core.Index.WellknownAnalyzer.ik.ToString(), "我是中国人");
+
             var re = escore.AnalyzeWord(null, "ik", "我是中国人");
 
             var boo1 = escore.DeleteIndex("cjzf.news");
